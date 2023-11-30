@@ -1,0 +1,37 @@
+import random
+
+# Function to generate three weights with a sum greater than 713
+def generate_weights():
+    while True:
+        # Generating random weights
+        fw = random.randint(714, 1000)  # Weight of the first box greater than 713
+        sw = random.randint(1, 713)    # Weight of the second box less than or equal to 713
+        tw = 713 - fw - sw             # Calculating the weight of the third box
+
+        # If the weight of the third box is positive, return the weights
+        if tw > 0:
+            return [fw, sw, tw]
+
+# Main game loop
+while True:
+    # Generating random coordinates for the boxes (numbers from 1 to 7) without repetition
+    box_coords = random.sample(range(1, 8), 3)
+
+    # Checking that the coordinates are unique (no two boxes are in the same spot)
+    if len(set(box_coords)) == 3:
+        print(f"Boxes are buried in {box_coords}")
+
+        # Getting coordinates entered by the user
+        user_coords = [int(input(f"Box {i + 1}: ")) for i in range(3)]
+
+        # Generating weights for the boxes
+        weights = generate_weights()
+        
+        # Checking that the sum of the box weights entered by the user is 713
+        weight_found = sum(weights[i] for i in range(3) if user_coords[i] == box_coords[i])
+
+        # If the sum of the box weights is 713, displaying the result
+        if weight_found == 713:
+            for i in range(3):
+                print(f"Box {i + 1} is found at point '{user_coords[i]}' and has a weight of {weights[i]}")
+            break  # End the game
